@@ -10,7 +10,7 @@ class CustomTextFiled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      cursorColor: kPrimaryColor,
+      cursorColor: const Color.fromARGB(255, 111, 217, 203),
       //textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
       maxLines: maxLines,
