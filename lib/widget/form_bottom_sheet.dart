@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
+import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/widget/custom_Text_field.dart';
 import 'package:notes_app/widget/custom_button.dart';
 
 class AddNotesForm extends StatefulWidget {
-  const AddNotesForm({
-    super.key,
-  });
+  const AddNotesForm({super.key});
 
   @override
   State<AddNotesForm> createState() => _AddNotesFormState();
 }
 
 class _AddNotesFormState extends State<AddNotesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey();
 
-  final GlobalKey<FormState> formKey=GlobalKey();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
-  AutovalidateMode autovalidateMode=AutovalidateMode.disabled;
-
-  String? title,subTitle;
+  String? title, subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +26,42 @@ class _AddNotesFormState extends State<AddNotesForm> {
       autovalidateMode: autovalidateMode,
       child: Column(
         children: [
-         const SizedBox(height: 30),
-          CustomTextFiled(hint: 'Title',
-          onSave: (value)
-          {
-            title=value;
-          },),
-         const SizedBox(height: 16),
-          CustomTextFiled(hint: 'Content', maxLines: 5,
-          onSave: (value) {
-            subTitle=value;
-          },),
+          const SizedBox(height: 30),
+          CustomTextFiled(
+            hint: 'Title',
+            onSave: (value) {
+              title = value;
+            },
+          ),
+          const SizedBox(height: 16),
+          CustomTextFiled(
+            hint: 'Content',
+            maxLines: 5,
+            onSave: (value) {
+              subTitle = value;
+            },
+          ),
           SizedBox(height: 16),
-          CustomButton(onTap: () {
-            if(formKey.currentState!.validate())
-            {
-              formKey.currentState!.save();
-            }
-            else
-            {
-              autovalidateMode=AutovalidateMode.always;
+          CustomButton(
+            onTap: () {
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
 
-              setState(() {
-                
-              });
-            }
-            
-          },),
+                var noteModel = NoteModel(
+                  title: title!,
+                  subtitle: subTitle!,
+                  date: DateTime.now().toString(),
+                  color: Colors.blue.value,
+                );
+
+                BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+              } else {
+                autovalidateMode = AutovalidateMode.always;
+
+                setState(() {});
+              }
+            },
+          ),
           SizedBox(height: 16),
         ],
       ),

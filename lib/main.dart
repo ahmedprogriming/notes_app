@@ -10,10 +10,9 @@ import 'package:notes_app/views/notes_view.dart';
 void main(dynamic bloc) async {
 
   await Hive.initFlutter();
-  await Hive.openBox(kNotesBox);
-  Bloc.observer = SimpleBlocObserver();
-
   Hive.registerAdapter(NoteModelAdapter());
+  await Hive.openBox<NoteModel>(kNotesBox);
+  Bloc.observer = SimpleBlocObserver();
 
   runApp(const NotesApp());
 }
