@@ -7,14 +7,13 @@ import 'package:notes_app/models/notes_model.dart';
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial());
 
-  FetchAllNotes() async {
+List<NoteModel>? notes;
+
+  fetchAllNotes() async {
     
-    try {
       var noteBox=Hive.box<NoteModel>(kNotesBox);
+      notes=noteBox.values.toList();
       
-      emit(NotesSuccess(notes: noteBox.values.toList()));
-    } catch (e) {
-      emit(NotesFailure(e.toString()));
-    }
+ 
   }
 }

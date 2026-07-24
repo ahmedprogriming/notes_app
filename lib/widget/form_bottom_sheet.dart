@@ -19,6 +19,9 @@ class _AddNotesFormState extends State<AddNotesForm> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   String? title, subTitle;
+    String _formatDate(DateTime date) {
+    return '${date.month}/${date.day}/${date.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class _AddNotesFormState extends State<AddNotesForm> {
                   var noteModel = NoteModel(
                     title: title!,
                     subtitle: subTitle!,
-                    date: DateTime.now().toString(),
+                    date:_formatDate(DateTime.now()),
                     color: Colors.blue.value,
                   );
             
