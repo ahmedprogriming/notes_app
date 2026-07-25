@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/add_note_cubit/notes_cubit/note_cubit.dart';
 import 'package:notes_app/models/notes_model.dart';
 import 'package:notes_app/views/edit_notes_view.dart';
 
@@ -24,7 +26,7 @@ class NoteItem extends StatelessWidget {
         padding: EdgeInsets.only(top: 24, bottom: 24, left: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Color(0xffFFCD7A),
+          color:note?.color != null ? Color(note!.color) : Colors.blue,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -47,6 +49,7 @@ class NoteItem extends StatelessWidget {
               trailing: IconButton(
                 onPressed: () {
                   note?.delete();
+                  BlocProvider.of<NotesCubit>(context).fetchAllNotes();
                 },
                 icon: Icon(Icons.delete,
                  color: Colors.black,
