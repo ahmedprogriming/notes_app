@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
 
-class ColorListview extends StatelessWidget {
+class ColorListview extends StatefulWidget {
   const ColorListview({super.key});
 
   @override
+  State<ColorListview> createState() => _ColorListviewState();
+}
+
+class _ColorListviewState extends State<ColorListview> {
+  int currentindex = 0;
+
+  List<Color> colors = const [
+    Color(0xffAC3931),
+    Color(0xffE5D352),
+    Color.fromARGB(0, 7, 227, 62),
+    Color.fromARGB(255, 195, 205, 210),
+    Color.fromARGB(255, 200, 9, 234),
+
+    Color.fromARGB(255, 40, 3, 253),
+    Color.fromARGB(255, 223, 153, 4),
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    return  SizedBox(
-      height: 30*2,
+    return SizedBox(
+      height: 38 * 2,
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: colors.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            child:const ColorItem(),
+            child: GestureDetector(
+              onTap: () {
+                currentindex = index;
+                setState(() {});
+              },
+              child: ColorItem(isSelected: currentindex == index,
+              listcolor: colors[index],),
+            ),
           );
         },
       ),
@@ -22,13 +47,19 @@ class ColorListview extends StatelessWidget {
 }
 
 class ColorItem extends StatelessWidget {
-  const ColorItem({super.key});
+  const ColorItem({super.key, required this.isSelected, required this.listcolor});
+  final bool isSelected;
+
+  final Color listcolor;
 
   @override
   Widget build(BuildContext context) {
-    return const CircleAvatar(
-      radius: 30,
-      backgroundColor: Color.fromARGB(255, 54, 54, 244),
-    );
+    return isSelected
+        ? CircleAvatar(
+            radius: 38,
+            backgroundColor: Colors.white,
+            child: CircleAvatar(radius: 34, backgroundColor: listcolor),
+          )
+        : CircleAvatar(radius: 38, backgroundColor:listcolor);
   }
 }

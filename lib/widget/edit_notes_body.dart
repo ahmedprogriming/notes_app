@@ -27,6 +27,7 @@ class _EditNotesBodyState extends State<EditNotesBody> {
           CustomAppBar(onPressed: (){
             widget.note.title=title??widget.note.title;
             widget.note.subtitle=subTitle??widget.note.subtitle;
+            widget.note.save();
             BlocProvider.of<NotesCubit>(context).fetchAllNotes();
             Navigator.pop(context);
           },
